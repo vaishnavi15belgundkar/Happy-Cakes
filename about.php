@@ -40,7 +40,7 @@ if(!isset($user_id)){
 
         <div class="content">
             <h3>Why Choose Us?</h3>
-            <p>At RR bakery, we understand that every celebration deserves something special. That's why we strive to create cakes that not only look stunning but also taste divine. With our dedication to quality and craftsmanship, we ensure that every cake we bake becomes the centerpiece of your memorable moments.</p>
+            <p>At Happy Cakes bakery, we understand that every celebration deserves something special. That's why we strive to create cakes that not only look stunning but also taste divine. With our dedication to quality and craftsmanship, we ensure that every cake we bake becomes the centerpiece of your memorable moments.</p>
             
         </div>
 
@@ -68,7 +68,7 @@ if(!isset($user_id)){
 
         <div class="content">
             <h3>Who We Are?</h3>
-            <p>At the heart of RR is a team of passionate bakers and artists who share a love for all things sweet. With years of experience and a flair for creativity, our talented team brings your cake dreams to life. We take pride in our attention to detail, ensuring that each cake is not only visually stunning but also a true reflection of your personality and style.</p>
+            <p>At the heart of Happy Cakes is a team of passionate bakers and artists who share a love for all things sweet. With years of experience and a flair for creativity, our talented team brings your cake dreams to life. We take pride in our attention to detail, ensuring that each cake is not only visually stunning but also a true reflection of your personality and style.</p>
             
         </div>
 

@@ -2,7 +2,7 @@
 
     <div class="flex">
 
-        <a href="home.php" class="logo">R&R</a>
+        <a href="home.php" class="logo">Happy Cakes</a>
 
         <nav class="navbar">
             <ul>

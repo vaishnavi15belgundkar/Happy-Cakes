@@ -15,7 +15,7 @@ if(isset($message)){
 
    <div class="flex">
 
-      <a href="admin_page.php" class="logo">R<span>R</span></a>
+      <a href="admin_page.php" class="logo">Happy<span>Cakes</span></a>
 
       <nav class="navbar">
          <a href="admin_page.php">Dashboard</a>
@@ -23,13 +23,13 @@ if(isset($message)){
          <a href="admin_orders.php">Orders</a>
          <a href="admin_users.php">Users</a>
          <a href="admin_contacts.php">Feedbacks</a>
+         <a href="logout.php" class="logout-btn" style="color: red; font-weight: bold;">Logout</a> <!-- Added Logout Link -->
       </nav>
-
 
       <div class="account-box">
          <p>Username : <span><?php echo $_SESSION['admin_name']; ?></span></p>
          <p>Email : <span><?php echo $_SESSION['admin_email']; ?></span></p>
-         <a href="logout.php" class="delete-btn">logout</a>
+         <a href="logout.php" class="delete-btn">Logout</a> <!-- This can stay if you want it in both places -->
       </div>
 
    </div>

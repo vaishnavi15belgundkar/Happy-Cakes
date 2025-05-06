@@ -82,8 +82,8 @@ if (isset($_POST['add_to_cart'])) {
    <section class="home">
 
       <div class="content">
-         <h3>🎂 Welcome to R&R! 🍰</h3>
-         <p>Indulge in sweet moments with our delectable cakes crafted with love and care. 🎉 Elevate every celebration with our irresistible flavors and stunning designs. 🌟 From birthdays to weddings, make memories sweeter with R&R. Order now and taste the magic! ✨🎈</p>
+         <h3>🎂 Welcome to Happy Cakes! 🍰</h3>
+         <p>Indulge in sweet moments with our delectable cakes crafted with love and care. 🎉 Elevate every celebration with our irresistible flavors and stunning designs. 🌟 From birthdays to weddings, make memories sweeter with Happy Cakes. Order now and taste the magic! ✨🎈</p>
          <a href="about.php" class="btn">discover more</a>
       </div>
 

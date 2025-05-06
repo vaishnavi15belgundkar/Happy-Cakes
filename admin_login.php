@@ -1,48 +1,20 @@
 <?php
+session_start();
 
-@include 'config.php';
-
+// Check if form is submitted
 if(isset($_POST['submit'])){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-   $filter_name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-   $name = mysqli_real_escape_string($conn, $filter_name);
-   
-   $filter_email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-   $email = mysqli_real_escape_string($conn, $filter_email);
-
-   $pass = mysqli_real_escape_string($conn, password_hash($_POST['pass'], PASSWORD_BCRYPT));
-   $cpass = $_POST['cpass'];
-
-   $filter_city = filter_var($_POST['hint_city'], FILTER_SANITIZE_STRING);
-   $hint_city = mysqli_real_escape_string($conn, $filter_city);
-
-   $filter_movie = filter_var($_POST['hint_movie'], FILTER_SANITIZE_STRING);
-   $hint_movie = mysqli_real_escape_string($conn, $filter_movie);
-
-   // Default user type
-   $user_type = 'user';  // Automatically set to 'user'
-
-   $select_users = mysqli_prepare($conn, "SELECT email FROM users WHERE email = ?");
-   mysqli_stmt_bind_param($select_users, "s", $email);
-   mysqli_stmt_execute($select_users);
-   mysqli_stmt_store_result($select_users);
-
-   if(mysqli_stmt_num_rows($select_users) > 0){
-      $message[] = 'User already exists!';
-   } else {
-      if(!password_verify($cpass, $pass)){
-         $message[] = 'Confirm password does not match!';
-      } else {
-         $insert_user = mysqli_prepare($conn, "INSERT INTO users(name, email, password, hint_city, hint_movie, user_type) VALUES(?, ?, ?, ?, ?, ?)");
-         mysqli_stmt_bind_param($insert_user, "ssssss", $name, $email, $pass, $hint_city, $hint_movie, $user_type);
-         mysqli_stmt_execute($insert_user);
-         $message[] = 'Registered successfully!';
-         header('location:login.php');
-         exit();
-      }
-   }
+    // Check credentials (hardcoded for admin)
+    if($username === 'Admin' && $password === '123'){
+        $_SESSION['admin_id'] = '1'; // Set session
+        header('location:admin_page.php'); // Redirect to admin page
+        exit();
+    } else {
+        $message[] = 'Invalid username or password!';
+    }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +22,7 @@ if(isset($_POST['submit'])){
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Register</title>
+   <title>Admin Login</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <style>
       * {
@@ -74,7 +46,7 @@ if(isset($_POST['submit'])){
          border-radius: 15px;
          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
          width: 100%;
-         max-width: 450px;
+         max-width: 400px;
          text-align: center;
          animation: slideIn 0.8s ease;
       }
@@ -165,16 +137,11 @@ if(isset($message)){
 ?>
 
 <section class="form-container">
-   <h3>Register Now</h3>
+   <h3>Admin Login</h3>
    <form action="" method="post">
-      <input type="text" name="name" class="box" placeholder="Enter your username" required>
-      <input type="email" name="email" class="box" placeholder="Enter your email" required>
-      <input type="password" name="pass" class="box" placeholder="Enter your password" required>
-      <input type="password" name="cpass" class="box" placeholder="Confirm your password" required>
-      <input type="text" name="hint_city" class="box" placeholder="What is your city name?" required>
-      <input type="text" name="hint_movie" class="box" placeholder="What is your favorite movie?" required>
-      <input type="submit" class="btn" name="submit" value="Register Now">
-      <p>Already have an account? <a href="login.php">Login now</a></p>
+      <input type="text" name="username" class="box" placeholder="Enter Admin Username" required>
+      <input type="password" name="password" class="box" placeholder="Enter Password" required>
+      <input type="submit" class="btn" name="submit" value="Login Now">
    </form>
 </section>
 

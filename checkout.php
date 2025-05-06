@@ -108,8 +108,6 @@ if(isset($_POST['order'])){
                 <span>Payment Method:</span>
                 <select name="method">
                     <option value="cash on delivery">Cash on Delivery</option>
-                    <option value="credit card">Credit Card</option>
-                    <option value="paypal">Paypal</option>
                 </select>
             </div>
             <div class="inputBox">

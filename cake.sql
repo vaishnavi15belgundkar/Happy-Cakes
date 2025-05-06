@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2024 at 12:50 PM
+-- Generation Time: Mar 09, 2025 at 07:41 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -98,7 +98,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `name`, `number`, `email`, `method`, `address`, `total_products`, `total_price`, `placed_on`, `payment_status`) VALUES
-(20, 1, 'rutik ', '1234567890', 'rutik12@gmail.com', 'cash on delivery', 'flat no. taradgaon , taradgaon, phaltan, india - 415528', ', chiffon cake.jpg (3) ', 780, '23-Feb-2023', '');
+(20, 1, 'rutik ', '1234567890', 'rutik12@gmail.com', 'cash on delivery', 'flat no. taradgaon , taradgaon, phaltan, india - 415528', ', chiffon cake.jpg (3) ', 780, '23-Feb-2023', ''),
+(21, 22, '', '', '', 'cash on delivery', 'flat no. , , ,  - ', ', Cake 1 (1) ', 1500, '05-Feb-2025', 'pending'),
+(22, 22, 'Suraj', '656559898', 'fd56d@gmail.com', 'cash on delivery', 'flat no. fdfdkj, dfkjdfkj, dfkjdfk, fkdfj - 5854466', ', Cake 1 (1) ', 1500, '06-Mar-2025', 'pending'),
+(23, 25, 'Rajiv', '9868645454', 'Rajiv@gmail.com', 'cash on delivery', 'flat no. 12345, , Belgavi 12, Ind - ', ', Cake 1 (1) ', 300, '07-Mar-2025', 'pending');
 
 -- --------------------------------------------------------
 
@@ -120,12 +123,14 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `details`, `price`, `image`, `category_id`) VALUES
-(45, 'Cake 1', '', 1500, 'IMG-20240329-WA0020.jpg', 1),
-(47, 'Cake 2', '', 2000, 'IMG-20240204-WA0020.jpg', 1),
-(48, 'Cake 3', '', 3500, 'FB_IMG_1695361331299.jpg', 2),
-(49, 'Cake 4', '', 4000, 'IMG-20240410-WA0004.jpg', 2),
-(50, 'Cake 5', '', 8000, 'IMG-20231003-WA0008.jpg', 3),
-(53, 'Cake 6', '', 5000, 'IMG-20231010-WA0032.jpg', 3);
+(45, 'Cake 1', '', 300, 'IMG-20240329-WA0020.jpg', 1),
+(47, 'Cake 2', '', 500, 'IMG-20240204-WA0020.jpg', 1),
+(48, 'Cake 3', '', 600, 'FB_IMG_1695361331299.jpg', 2),
+(49, 'Cake 4', '', 800, 'IMG-20240410-WA0004.jpg', 2),
+(50, 'Cake 5', '', 300, 'IMG-20231003-WA0008.jpg', 3),
+(53, 'Cake 6', '', 400, 'IMG-20231010-WA0032.jpg', 3),
+(56, 'Chocolate', '', 500, 'download.jpeg', 3),
+(57, 'strawberry', '', 700, 'download.jpeg', 1);
 
 -- --------------------------------------------------------
 
@@ -134,6 +139,8 @@ INSERT INTO `products` (`id`, `name`, `details`, `price`, `image`, `category_id`
 --
 
 CREATE TABLE `users` (
+  `hint_city` varchar(255) NOT NULL,
+  `hint_movie` varchar(255) NOT NULL,
   `id` int(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
@@ -145,9 +152,13 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`) VALUES
-(20, 'qqq', 'qqq@qqq.com', 'b2ca678b4c936f905fb82f2733f5297f', 'admin'),
-(21, 'www', 'www@www.com', '4eae35f1b35977a00ebd8086c259d4c9', 'user');
+INSERT INTO `users` (`hint_city`, `hint_movie`, `id`, `name`, `email`, `password`, `user_type`) VALUES
+('', '', 20, 'qqq', 'qqq@qqq.com', 'b2ca678b4c936f905fb82f2733f5297f', 'admin'),
+('', '', 21, 'www', 'www@www.com', '4eae35f1b35977a00ebd8086c259d4c9', 'user'),
+('', '', 22, 'Suraj', 'surajjangavali80@gmail.com', '202cb962ac59075b964b07152d234b70', 'user'),
+('Hubli', 'Marco', 23, 'Rajiv', 'Rajiv@gmail.com', '$2y$10$vl7dXSF.FFFAOmrVObxlDekJ.fWaJNA6EaC1EJzpqUfLVMs.mPI2e', 'user'),
+('Hubli', 'Marco', 24, 'Rajiv', 'Rajiv1@gmail.com', '$2y$10$k2wPW2iuPZlUF0TUUpLZIO/dsCZTnI3H4mtMrZAxtTTbqsuH4nakm', 'user'),
+('Hubli', 'kmdf', 25, 'Raj', 'Raj@gmail.com', '$2y$10$.Z7Qk8XIhkKyBDMc/lITCebjUj0sOMjHRXyUPJbpKbrcaKi8iDdd.', 'user');
 
 -- --------------------------------------------------------
 
@@ -219,7 +230,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -231,25 +242,25 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `wishlist`
