@@ -274,7 +274,7 @@ section{
    font-size: 2rem;
    padding:1rem 1.5rem;
    display: block;
-   color:var(--light-color);
+   color:black;
    text-transform: capitalize;
 }
 

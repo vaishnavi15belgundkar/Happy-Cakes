@@ -75,6 +75,14 @@ if (isset($_POST['add_to_cart'])) {
 
    <style>
       /* Additional styles for new sections */
+   .header .flex .navbar ul li a{
+   font-size: 2rem;
+   padding:1rem 1.5rem;
+   display: block;
+   color:rgb(51 53 53);
+   text-transform: capitalize;
+}
+/* Navbar */
 
 /* Services Section */
 .services .box-container {
@@ -430,7 +438,7 @@ if (isset($_POST['add_to_cart'])) {
             <p>Whenever you visit a bakery, you will see a selective range of cakes. Since you are obviously buying a cake for an important occasion, you will be visiting many local bakeries before choosing one special cake. If you decide to buy the cake online, you can browse through larger variety of cakes in one e-commerce shop than you would in almost all local bakeries combined.
 
             <div>
-               <a href="#" class="btn">learn more</a>
+               <a href="about.php" class="btn">learn more</a>
             </div>
 
          </div>

@@ -8,10 +8,9 @@
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="shop.php">Products</a></li>
-                <li><a href="about.php">About-US</a></li>
+                <li><a href="about.php">About</a></li>
                 <li><a href="contact.php">Feedbacks</a></li>
                 <li><a href="orders.php">Orders</a></li>    
-                <li><a href="login.php">Login</a></li>
                 </li>
             </ul>
         </nav>
