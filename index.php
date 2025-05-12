@@ -274,7 +274,7 @@ if (isset($_POST['add_to_cart'])) {
 /* Newsletter Section */
 .newsletter {
    background-color: var(--pink);
-   padding: 5rem 2rem;
+   padding: 2rem 2rem;
    text-align: center;
 }
 
@@ -319,7 +319,6 @@ if (isset($_POST['add_to_cart'])) {
    background-color: var(--white);
    color: var(--black);
 }
-
 /* Footer Section */
 .footer {
    background-color: var(--light-bg);
@@ -580,7 +579,7 @@ if (isset($_POST['add_to_cart'])) {
             <div class="user">
                <img src="images/pic-1.jpg" alt="">
                <div class="user-info">
-                  <h3>Sarah Johnson</h3>
+                  <h3>Miss Leela</h3>
                   <span>Happy Customer</span>
                </div>
             </div>
@@ -598,8 +597,8 @@ if (isset($_POST['add_to_cart'])) {
             <div class="user">
                <img src="images/pic-2.jpg" alt="">
                <div class="user-info">
-                  <h3>Michael & Lisa</h3>
-                  <span>Newlyweds</span>
+                  <h3>Mr Rohit</h3>
+                  <span>Happy Customer</span>
                </div>
             </div>
          </div>
@@ -616,8 +615,8 @@ if (isset($_POST['add_to_cart'])) {
             <div class="user">
                <img src="images/pic-3.jpg" alt="">
                <div class="user-info">
-                  <h3>David Chen</h3>
-                  <span>Corporate Client</span>
+                  <h3>Mr Basavraj</h3>
+                  <span>Happy Customer</span>
                </div>
             </div>
          </div>
@@ -678,16 +677,16 @@ if (isset($_POST['add_to_cart'])) {
    <!-- contact section ends -->
 
    <!-- newsletter section starts -->
-   <section class="newsletter">
-      <div class="content">
-         <h3>Subscribe to Our Newsletter</h3>
-         <p>Get the latest updates about new flavors, special offers, and upcoming events!</p>
+   <!-- <section class="newsletter">
+      <div class="content"> -->
+         <!-- <h3>Subscribe to Our Newsletter</h3> -->
+         <!-- <p>Get the latest updates about new flavors, special offers, and upcoming events!</p>
          <form action="" method="post">
             <input type="email" name="email" placeholder="Enter your email" required>
             <input type="submit" value="Subscribe" class="btn" name="subscribe">
-         </form>
-      </div>
-   </section>
+         </form> -->
+      <!-- </div>
+   </section> -->
    <!-- newsletter section ends -->
 
    <!-- footer section starts -->
@@ -695,10 +694,10 @@ if (isset($_POST['add_to_cart'])) {
       <div class="footer-container">
          <div class="box">
             <h3>Quick Links</h3>
-            <a href="#"><i class="fas fa-angle-right"></i> Home</a>
-            <a href="#aboutus"><i class="fas fa-angle-right"></i> About</a>
+            <a href="index.php"><i class="fas fa-angle-right"></i> Home</a>
+            <a href="about.php"><i class="fas fa-angle-right"></i> About</a>
             <a href="#services"><i class="fas fa-angle-right"></i> Services</a>
-            <a href="shop.php"><i class="fas fa-angle-right"></i> Shop</a>
+            <a href="shop.php"><i class="fas fa-angle-right"></i> Products</a>
             <a href="#testimonials"><i class="fas fa-angle-right"></i> Testimonials</a>
             <a href="#contact"><i class="fas fa-angle-right"></i> Contact</a>
          </div>
@@ -715,18 +714,18 @@ if (isset($_POST['add_to_cart'])) {
          <div class="box">
             <h3>Follow Us</h3>
             <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
-            <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+            <!-- <a href="#"><i class="fab fa-twitter"></i> Twitter</a> -->
             <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="#"><i class="fab fa-pinterest"></i> Pinterest</a>
-            <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+            <!-- <a href="#"><i class="fab fa-pinterest"></i> Pinterest</a> -->
+            <!-- <a href="#"><i class="fab fa-youtube"></i> YouTube</a> -->
          </div>
 
          <div class="box">
             <h3>Happy Cakes</h3>
             <p>Crafting Sweet Memories Since 2010</p>
-            <div class="payment-methods">
+            <!-- <div class="payment-methods">
                <img src="images/payment.png" alt="Payment Methods">
-            </div>
+            </div> -->
          </div>
       </div>
 
