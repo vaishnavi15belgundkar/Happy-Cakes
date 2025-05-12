@@ -577,7 +577,7 @@ if (isset($_POST['add_to_cart'])) {
             </div>
             <p>"The birthday cake for my daughter was absolutely stunning! Not only did it look beautiful, but it tasted amazing too. Everyone at the party was impressed!"</p>
             <div class="user">
-               <img src="images/pic-1.jpg" alt="">
+               <img src="images/Leela.png" alt="">
                <div class="user-info">
                   <h3>Miss Leela</h3>
                   <span>Happy Customer</span>
@@ -593,9 +593,9 @@ if (isset($_POST['add_to_cart'])) {
                <i class="fas fa-star"></i>
                <i class="fas fa-star-half-alt"></i>
             </div>
-            <p>"Our wedding cake was a dream come true! The team at Happy Cakes truly captured our vision. The cake was not only gorgeous but delicious as well. Thank you for making our day so special!"</p>
+            <p>"Our wedding cake was a dream come true! The team at Happy Cakes truly captured our vision. The cake was not only gorgeous but delicious as well. Thank you! "</p>
             <div class="user">
-               <img src="images/pic-2.jpg" alt="">
+               <img src="images/Rohit.png" alt="">
                <div class="user-info">
                   <h3>Mr Rohit</h3>
                   <span>Happy Customer</span>
@@ -613,7 +613,7 @@ if (isset($_POST['add_to_cart'])) {
             </div>
             <p>"I ordered cupcakes for our company event and they were a huge hit! The presentation was beautiful and the flavors were outstanding. Will definitely order again for future events."</p>
             <div class="user">
-               <img src="images/pic-3.jpg" alt="">
+               <img src="images/Basavraj.png" alt="">
                <div class="user-info">
                   <h3>Mr Basavraj</h3>
                   <span>Happy Customer</span>
@@ -634,7 +634,7 @@ if (isset($_POST['add_to_cart'])) {
                <i class="fas fa-map-marker-alt"></i>
                <div>
                   <h3>Our Location</h3>
-                  <p>123 Cake Street, Sweet City, SC 45678</p>
+                  <p>Satwai Road, Nipani - 591237</p>
                </div>
             </div>
             
@@ -650,7 +650,7 @@ if (isset($_POST['add_to_cart'])) {
                <i class="fas fa-phone"></i>
                <div>
                   <h3>Call Us</h3>
-                  <p>+1 234 567 8900</p>
+                  <p>+91 7947430239</p>
                </div>
             </div>
             
@@ -707,15 +707,15 @@ if (isset($_POST['add_to_cart'])) {
             <a href="#"><i class="fas fa-angle-right"></i> My Account</a>
             <a href="#"><i class="fas fa-angle-right"></i> My Orders</a>
             <a href="#"><i class="fas fa-angle-right"></i> My Wishlist</a>
-            <a href="#"><i class="fas fa-angle-right"></i> Terms of Use</a>
-            <a href="#"><i class="fas fa-angle-right"></i> Privacy Policy</a>
+            <a href="terms_of_service.php"><i class="fas fa-angle-right"></i> Terms of Use</a>
+            <a href="privacy.php"><i class="fas fa-angle-right"></i> Privacy Policy</a>
          </div>
 
          <div class="box">
             <h3>Follow Us</h3>
-            <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+            <a href="https://www.justdial.com/Nipani/Happy-Cakes-Nipani/9999PX831-X831-200812122125-S1T2_BZDET"><i class="fas fa-phone-alt"></i> Justdial</a>
             <!-- <a href="#"><i class="fab fa-twitter"></i> Twitter</a> -->
-            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://www.instagram.com/happy_company.nipani/"><i class="fab fa-instagram"></i> Instagram</a>
             <!-- <a href="#"><i class="fab fa-pinterest"></i> Pinterest</a> -->
             <!-- <a href="#"><i class="fab fa-youtube"></i> YouTube</a> -->
          </div>
