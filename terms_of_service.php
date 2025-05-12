@@ -31,7 +31,7 @@
       }
       
       .terms-of-service h2 {
-         font-size: 2.8rem;
+         font-size: 40px ;
          color: var(--pink);
          margin-bottom: 1.5rem;
          border-bottom: 0.1rem solid var(--light-bg);
@@ -134,9 +134,9 @@
    
 <?php @include 'header.php'; ?>
 
-<section class="heading">
+<!-- <section class="heading">
     <h3>terms of service</h3>
-</section>
+</section> -->
 
 <section class="terms-of-service">
    <div class="last-updated">Last Updated: May 13, 2025</div>
