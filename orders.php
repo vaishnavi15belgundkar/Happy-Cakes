@@ -261,7 +261,16 @@ if(!isset($user_id)){
                 <div class="order-body">
                     <div class="order-items">
                         <h4>Items</h4>
-                        <p><?php echo $fetch_orders['total_products']; ?></p>
+                        <?php 
+                            $items = array_filter(array_map('trim', explode(',', $fetch_orders['total_products'])));
+                            if (!empty($items)) {
+                                foreach($items as $item){
+                                    echo "<p>" . htmlspecialchars($item) . "</p>";
+                                }
+                            } else {
+                                echo "<p>No items found.</p>";
+                            }
+                        ?>
                     </div>
                     
                     <div class="order-info">
@@ -269,19 +278,19 @@ if(!isset($user_id)){
                             <h4>Shipping Details</h4>
                             <div class="info-item">
                                 <i class="fas fa-user"></i>
-                                <p><?php echo $fetch_orders['name']; ?></p>
+                                <p><?php echo htmlspecialchars($fetch_orders['name']); ?></p>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-phone"></i>
-                                <p><?php echo $fetch_orders['number']; ?></p>
+                                <p><?php echo htmlspecialchars($fetch_orders['number']); ?></p>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-envelope"></i>
-                                <p><?php echo $fetch_orders['email']; ?></p>
+                                <p><?php echo htmlspecialchars($fetch_orders['email']); ?></p>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-map-marker-alt"></i>
-                                <p><?php echo $fetch_orders['address']; ?></p>
+                                <p><?php echo htmlspecialchars($fetch_orders['address']); ?></p>
                             </div>
                         </div>
                         
@@ -289,17 +298,19 @@ if(!isset($user_id)){
                             <h4>Payment Info</h4>
                             <div class="info-item">
                                 <i class="fas fa-wallet"></i>
-                                <p>Method: <?php echo $fetch_orders['method']; ?></p>
+                                <p>Method: <?php echo htmlspecialchars($fetch_orders['method']); ?></p>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-money-bill-wave"></i>
-                                <p>Total: <span class="price">₹<?php echo $fetch_orders['total_price']; ?>/-</span></p>
+                                <p>Total: <span class="price">₹<?php echo htmlspecialchars($fetch_orders['total_price']); ?>/-</span></p>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-circle-check"></i>
-                                <p>Status: <span class="status <?php echo ($fetch_orders['payment_status'] == 'completed') ? 'completed' : 'pending'; ?>">
-                                    <?php echo $fetch_orders['payment_status']; ?>
-                                </span></p>
+                                <p>Status: 
+                                    <span class="status <?php echo ($fetch_orders['payment_status'] == 'completed') ? 'completed' : 'pending'; ?>">
+                                        <?php echo htmlspecialchars($fetch_orders['payment_status']); ?>
+                                    </span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -310,27 +321,20 @@ if(!isset($user_id)){
                     <button class="support-btn option-btn">Need Help?</button>
                 </div>
             </div>
-            <?php
-                }
-            ?>
+            <?php } ?>
         </div>
-        <?php
-            }else{
-        ?>
+        <?php } else { ?>
         <div class="empty-orders">
             <img src="images/empty-box.png" alt="No Orders" onerror="this.src='https://via.placeholder.com/150?text=No+Orders'">
             <h3>You haven't placed any orders yet!</h3>
             <p>Explore our products and find something you'll love.</p>
             <a href="shop.php" class="btn">Start Shopping</a>
         </div>
-        <?php
-            }
-        ?>
+        <?php } ?>
     </div>
 </section>
 
 <?php @include 'footer.php'; ?>
-
 <script src="js/script.js"></script>
 
 </body>

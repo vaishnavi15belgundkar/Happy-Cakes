@@ -49,105 +49,228 @@ if(isset($_POST['submit'])){
 <html lang="en">
 <head>
    <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Register</title>
+   <link rel="stylesheet" href="css/style.css">
+   <!-- Font Awesome CDN link -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
    <style>
-      * {
+      body {
          margin: 0;
          padding: 0;
-         box-sizing: border-box;
-         font-family: 'Rubik', sans-serif;
+         font-family: Arial, sans-serif;
+         background-image: url('background.png');
+         background-size: cover;
+         background-position: center;
+         background-attachment: fixed;
+         min-height: 100vh;
       }
-      body {
-         background: #fde4e4; /* Light pink background */
+
+      .message-container {
+         position: fixed;
+         top: 20px;
+         left: 50%;
+         transform: translateX(-50%);
+         width: 100%;
+         max-width: 1200px;
+         z-index: 10000;
+      }
+
+      .message {
+         margin: 0 auto 10px;
+         padding: 1.5rem;
          display: flex;
-         justify-content: center;
          align-items: center;
-         height: 100vh;
-         padding: 1rem;
-         margin: 0;
-      }
-      .form-container {
-         background: #ffffff;
-         padding: 2.5rem;
-         border-radius: 15px;
-         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-         width: 100%;
-         max-width: 450px;
-         text-align: center;
-         animation: slideIn 0.8s ease;
-      }
-      .form-container h3 {
+         justify-content: space-between;
+         gap: 1.5rem;
+         background-color: var(--light-bg);
+         box-shadow: var(--box-shadow);
+         border-radius: 0.5rem;
+         color: var(--red);
          font-size: 2rem;
-         color: #d63031;
-         margin-bottom: 1.5rem;
-         font-weight: bold;
       }
-      .form-container .box {
-         width: 100%;
-         padding: 12px;
-         margin: 0.6rem 0;
-         border: 1px solid #ccc;
-         border-radius: 8px;
-         font-size: 1rem;
-         transition: border-color 0.3s ease;
-      }
-      .form-container .box:focus {
-         border-color: #ff6b81;
-         outline: none;
-         box-shadow: 0 0 5px rgba(255, 107, 129, 0.5);
-      }
-      .btn {
-         background: #ff6b81;
-         color: #fff;
-         padding: 12px;
-         border: none;
-         border-radius: 8px;
-         font-size: 1rem;
+
+      .message i {
+         font-size: 2.5rem;
+         color: var(--red);
          cursor: pointer;
-         transition: background 0.3s ease;
+         transition: all 0.3s ease;
+      }
+
+      .message i:hover {
+         transform: rotate(90deg);
+      }
+
+      .form-container {
+         min-height: 100vh;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         padding: 2rem;
+      }
+
+      .form-container form {
          width: 100%;
-         margin-top: 1rem;
+         max-width: 40rem;
+         padding: 3rem;
+         border-radius: 1rem;
+         background-color: rgba(255, 255, 255, 0.8);
+         backdrop-filter: blur(10px);
+         box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+         text-align: center;
+         position: relative;
+         overflow: hidden;
       }
-      .btn:hover {
-         background: #ff4757;
+
+      .form-container form::before {
+         content: '';
+         position: absolute;
+         top: -5rem;
+         left: -5rem;
+         width: 10rem;
+         height: 10rem;
+         background-color: var(--pink);
+         border-radius: 50%;
+         opacity: 0.5;
+         z-index: -1;
       }
-      p {
-         margin-top: 15px;
-         font-size: 0.9rem;
+
+      .form-container form::after {
+         content: '';
+         position: absolute;
+         bottom: -5rem;
+         right: -5rem;
+         width: 12rem;
+         height: 12rem;
+         background-color: var(--pink);
+         border-radius: 50%;
+         opacity: 0.3;
+         z-index: -1;
       }
-      p a {
-         color: #ff4757;
-         text-decoration: none;
+
+      .form-container form h3 {
+         font-size: 3rem;
+         color: var(--pink);
+         margin-bottom: 2rem;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+      }
+
+      .input-container {
+         position: relative;
+         margin: 1.5rem 0;
+      }
+
+      .input-container i {
+         position: absolute;
+         left: 2rem;
+         top: 50%;
+         transform: translateY(-50%);
+         font-size: 1.8rem;
+         color: var(--light-color);
+         z-index: 1;
+      }
+
+      .form-container form .box {
+         width: 100%;
+         margin: 0;
+         padding: 1.5rem 2rem 1.5rem 5rem;
+         font-size: 1.8rem;
+         color: var(--black);
+         border: none;
+         border-radius: 3rem;
+         background-color: var(--light-bg);
+         box-shadow: inset 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+         transition: all 0.3s ease;
+         box-sizing: border-box;
+      }
+
+      .form-container form .box:focus {
+         box-shadow: inset 0 0.2rem 0.5rem rgba(232, 67, 147, 0.3);
+         background-color: white;
+         outline: none;
+      }
+
+      .form-container form .btn {
+         display: inline-block;
+         width: 100%;
+         margin-top: 2.5rem;
+         padding: 1.5rem;
+         font-size: 1.8rem;
+         color: var(--white);
+         background-color: var(--pink);
+         border: none;
+         border-radius: 3rem;
+         cursor: pointer;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+         box-shadow: 0 0.5rem 1rem rgba(232, 67, 147, 0.3);
+         transition: all 0.3s ease;
+      }
+
+      .form-container form .btn:hover {
+         background-color: #d3237c;
+         transform: translateY(-3px);
+      }
+
+      .form-container form p {
+         margin-top: 2rem;
+         font-size: 1.7rem;
+         color: var(--light-color);
+      }
+
+      .form-container form p a {
+         color: var(--pink);
          font-weight: bold;
+         text-decoration: none;
       }
-      p a:hover {
+
+      .form-container form p a:hover {
          text-decoration: underline;
       }
-      .message {
-         background: #ff6b81;
-         color: white;
-         padding: 10px;
-         border-radius: 5px;
-         margin-bottom: 10px;
-         font-size: 0.9rem;
-         position: relative;
-      }
-      .message i {
-         position: absolute;
-         top: 5px;
-         right: 10px;
-         cursor: pointer;
-      }
-      @keyframes slideIn {
-         from {
-            transform: translateY(-30px);
-            opacity: 0;
+
+      @media (max-width: 768px) {
+         .form-container form {
+            padding: 2rem;
          }
-         to {
-            transform: translateY(0);
-            opacity: 1;
+
+         .form-container form h3 {
+            font-size: 2.5rem;
+         }
+
+         .form-container form .box,
+         .form-container form .btn {
+            font-size: 1.6rem;
+         }
+
+         .input-container i {
+            font-size: 1.6rem;
+         }
+      }
+
+      @media (max-width: 480px) {
+         .form-container {
+            padding: 1rem;
+         }
+
+         .form-container form h3 {
+            font-size: 2rem;
+         }
+
+         .form-container form .box,
+         .form-container form .btn {
+            font-size: 1.4rem;
+            padding: 1.2rem 2rem 1.2rem 4.5rem;
+         }
+
+         .input-container i {
+            font-size: 1.4rem;
+            left: 1.5rem;
+         }
+
+         .form-container form p {
+            font-size: 1.4rem;
          }
       }
    </style>
@@ -156,24 +279,61 @@ if(isset($_POST['submit'])){
 
 <?php
 if(isset($message)){
+   echo '<div class="message-container">';
    foreach($message as $msg){
-      echo '<div class="message"> <span>'.$msg.'</span>
-      <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>';
+      echo '
+      <div class="message">
+         <span>'.$msg.'</span>
+         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+      </div>
+      ';
    }
+   echo '</div>';
 }
 ?>
 
 <section class="form-container">
-   <h3>Register Now</h3>
    <form action="" method="post">
-      <input type="text" name="name" class="box" placeholder="Enter your username" required>
-      <input type="email" name="email" class="box" placeholder="Enter your email" required>
-      <input type="password" name="pass" class="box" placeholder="Enter your password" required>
-      <input type="password" name="cpass" class="box" placeholder="Confirm your password" required>
-      <input type="text" name="hint_city" class="box" placeholder="What is your city name?" required>
-      <input type="text" name="hint_movie" class="box" placeholder="What is your favorite movie?" required>
+      <h3>Register Now</h3>
+      
+      <div class="input-container">
+         <i class="fas fa-user"></i>
+         <input type="text" name="name" class="box" placeholder="Enter your name" required>
+      </div>
+
+      <div class="input-container">
+   <i class="fas fa-phone"></i>
+   <input type="tel" name="phone" class="box" placeholder="Enter your phone number" required>
+   </div>
+
+      
+      <div class="input-container">
+         <i class="fas fa-envelope"></i>
+         <input type="email" name="email" class="box" placeholder="Enter your email" required>
+      </div>
+      
+      <div class="input-container">
+         <i class="fas fa-lock"></i>
+         <input type="password" name="pass" class="box" placeholder="Enter your password" required>
+      </div>
+      
+      <div class="input-container">
+         <i class="fas fa-check-circle"></i>
+         <input type="password" name="cpass" class="box" placeholder="Confirm your password" required>
+      </div>
+      
+      <!-- <div class="input-container">
+         <i class="fas fa-city"></i>
+         <input type="text" name="hint_city" class="box" placeholder="What is your city name?" required>
+      </div>
+      
+      <div class="input-container">
+         <i class="fas fa-film"></i>
+         <input type="text" name="hint_movie" class="box" placeholder="What is your favorite movie?" required>
+      </div> -->
+      
       <input type="submit" class="btn" name="submit" value="Register Now">
+      
       <p>Already have an account? <a href="login.php">Login now</a></p>
    </form>
 </section>
