@@ -121,7 +121,7 @@ if(isset($_POST['send'])){
                <i class="fas fa-map-marker-alt"></i>
                <div>
                   <h3>Our Location</h3>
-                  <p>123 Cake Street, Sweet City, SC 45678</p>
+                  <p>Satwai Road, Nipani - 591237</p>
                </div>
             </div>
             
@@ -137,7 +137,7 @@ if(isset($_POST['send'])){
                <i class="fas fa-phone"></i>
                <div>
                   <h3>Call Us</h3>
-                  <p>+1 234 567 8900</p>
+                  <p>+91 7947430239</p>
                </div>
             </div>
             

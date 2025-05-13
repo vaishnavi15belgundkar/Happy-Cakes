@@ -10,7 +10,7 @@
                 <li><a href="shop.php">Products</a></li>
                 <li><a href="about.php">About</a></li>
                 <li><a href="contact.php">Contact</a></li>
-                <!-- <li><a href="orders.php">Orders</a></li>     -->
+                <li><a href="orders.php">Orders</a></li>    
                 </li>
             </ul>
         </nav>
@@ -18,22 +18,22 @@
         <div class="icons">
             <div id="menu-btn" class="fas fa-bars"></div>
             <div id="user-btn" class="fas fa-user"></div>
-            <!-- <?php
+            <?php
                 $select_wishlist_count = mysqli_query($conn, "SELECT * FROM `wishlist` WHERE user_id = '$user_id'") or die('query failed');
                 $wishlist_num_rows = mysqli_num_rows($select_wishlist_count);
-            ?> -->
-            <!-- <a href="wishlist.php"><span>&#10084;<?php echo $wishlist_num_rows; ?></span></a> -->
-            <!-- <?php
+            ?>
+            <a href="wishlist.php"><span>&#10084;<?php echo $wishlist_num_rows; ?></span></a>
+            <?php
                 $select_cart_count = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
                 $cart_num_rows = mysqli_num_rows($select_cart_count);
             ?>
             <a href="cart.php"><span> &#128722;<?php echo $cart_num_rows; ?></span></a>
-        </div> -->
+        </div>
 
         <div class="account-box">
-            <!-- <p>username : <span><?php echo $_SESSION['user_name']; ?></span></p>
-            <p>email : <span><?php echo $_SESSION['user_email']; ?></span></p> -->
-            <a href="login.php" class="delete-btn">login</a>
+            <p>username : <span><?php echo $_SESSION['user_name']; ?></span></p>
+            <p>email : <span><?php echo $_SESSION['user_email']; ?></span></p>
+            <a href="logout.php" class="delete-btn">logout</a>
         </div>
 
     </div>
