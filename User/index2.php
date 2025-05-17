@@ -2,13 +2,13 @@
 
 @include 'config.php';
 
-// session_start();
+session_start();
 
-// $user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 
-// if (!isset($user_id)) {
-//    header('location:login.php');
-// }
+if (!isset($user_id)) {
+   header('location:login.php');
+}
 
 if (isset($_POST['add_to_wishlist'])) {
 
@@ -319,86 +319,6 @@ if (isset($_POST['add_to_cart'])) {
    background-color: var(--white);
    color: var(--black);
 }
-
-/* Enhanced Google Maps Section Styles */
-.map-section {
-   max-width: 1200px;
-   margin: 4rem auto;
-   padding: 2rem;
-}
-
-.map-section h3 {
-   text-align: center;
-   font-size: 2.5rem;
-   color: var(--black);
-   margin-bottom: 2rem;
-}
-
-.map-container {
-   position: relative;
-   width: 100%;
-   height: 0;
-   padding-bottom: 45%; /* 16:9 aspect ratio (9/16 = 0.5625 or 56.25%) - adjusted for better height */
-   background-color: var(--white);
-   border-radius: 1rem;
-   box-shadow: var(--box-shadow);
-   overflow: hidden;
-}
-
-.map-container iframe {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   border: none;
-   border-radius: 1rem;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-   .contact-container {
-      grid-template-columns: 1fr;
-      padding: 1rem;
-      gap: 2rem;
-   }
-   
-   .contact form {
-      padding: 2rem;
-   }
-   
-   .map-section {
-      padding: 1rem;
-      margin: 2rem auto;
-   }
-   
-   .map-container {
-      padding-bottom: 60%; /* Slightly taller on mobile for better visibility */
-   }
-   
-   .contact-info .info-item {
-      padding: 1.5rem;
-   }
-   
-   .contact-info .info-item h3 {
-      font-size: 1.8rem;
-   }
-   
-   .contact-info .info-item p {
-      font-size: 1.4rem;
-   }
-}
-
-@media (max-width: 480px) {
-   .map-container {
-      padding-bottom: 75%; /* Even taller on very small screens */
-   }
-   
-   .contact form h3,
-   .map-section h3 {
-      font-size: 2rem;
-   }
-}
 /* Footer Section */
 .footer {
    background-color: var(--light-bg);
@@ -487,7 +407,7 @@ if (isset($_POST['add_to_cart'])) {
 
 <body>
 
-   <?php @include 'header.php'; ?>
+   <?php @include 'header2.php'; ?>
 
    <section class="home">
 
@@ -769,20 +689,6 @@ if (isset($_POST['add_to_cart'])) {
       <!-- </div>
    </section> -->
    <!-- newsletter section ends -->
-
-   <!-- Enhanced Google Maps Section -->
-<section class="map-section">
-   <h1 class="title"><span>Find Us</span> on the Map</h1>
-   <div class="map-container">
-      <iframe 
-         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.474280948952!2d74.3805555!3d16.4007217!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc0f36622dad70f%3A0x7085ab16559588d3!2sHappy%20Cakes!5e0!3m2!1sen!2sin!4v1747467747517!5m2!1sen!2sin"
-         allowfullscreen="" 
-         loading="lazy" 
-         referrerpolicy="no-referrer-when-downgrade"
-         title="Happy Cakes Location Map">
-      </iframe>
-   </div>
-</section>
 
    <!-- footer section starts -->
    <footer class="footer">

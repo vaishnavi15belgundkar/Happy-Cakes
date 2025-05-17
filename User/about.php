@@ -2,13 +2,13 @@
 
 @include 'config.php';
 
-// session_start();
+session_start();
 
-// $user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 
-// if(!isset($user_id)){
-//    header('location:login.php');
-// }
+if(!isset($user_id)){
+   header('location:login.php');
+}
 
 ?>
 
@@ -123,7 +123,7 @@
 </head>
 <body>
    
-<?php @include 'header.php'; ?>
+<?php @include 'header2.php'; ?>
 
 <section class="heading fade-in">
     <h3>about us</h3>

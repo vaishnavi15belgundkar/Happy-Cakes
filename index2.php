@@ -407,7 +407,7 @@ if (isset($_POST['add_to_cart'])) {
 
 <body>
 
-   <?php @include 'header.php'; ?>
+   <?php @include 'header2.php'; ?>
 
    <section class="home">
 

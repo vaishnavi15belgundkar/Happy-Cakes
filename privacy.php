@@ -28,6 +28,47 @@
          background-color: var(--white);
          border-radius: 0.5rem;
          box-shadow: var(--box-shadow);
+         opacity: 0;
+         transform: translateY(30px);
+         animation: fadeInUp 0.8s ease-out forwards;
+      }
+      
+      @keyframes fadeInUp {
+         to {
+            opacity: 1;
+            transform: translateY(0);
+         }
+      }
+      
+      @keyframes fadeInLeft {
+         from {
+            opacity: 0;
+            transform: translateX(-30px);
+         }
+         to {
+            opacity: 1;
+            transform: translateX(0);
+         }
+      }
+      
+      @keyframes fadeInRight {
+         from {
+            opacity: 0;
+            transform: translateX(30px);
+         }
+         to {
+            opacity: 1;
+            transform: translateX(0);
+         }
+      }
+      
+      @keyframes fadeIn {
+         from {
+            opacity: 0;
+         }
+         to {
+            opacity: 1;
+         }
       }
       
       .privacy-policy h2 {
@@ -36,12 +77,16 @@
          margin-bottom: 1.5rem;
          border-bottom: 0.1rem solid var(--light-bg);
          padding-bottom: 1rem;
+         opacity: 0;
+         animation: fadeInLeft 0.8s ease-out 0.2s forwards;
       }
       
       .privacy-policy h3 {
          font-size: 2.2rem;
          color: var(--black);
          margin: 2rem 0 1rem 0;
+         opacity: 0;
+         transform: translateY(20px);
       }
       
       .privacy-policy p {
@@ -49,11 +94,15 @@
          color: var(--light-color);
          line-height: 1.8;
          margin-bottom: 1.5rem;
+         opacity: 0;
+         transform: translateY(15px);
       }
       
       .privacy-policy ul {
          padding-left: 2rem;
          margin-bottom: 1.5rem;
+         opacity: 0;
+         transform: translateY(15px);
       }
       
       .privacy-policy ul li {
@@ -61,6 +110,8 @@
          color: var(--light-color);
          line-height: 1.8;
          margin-bottom: 0.8rem;
+         opacity: 0;
+         transform: translateX(20px);
       }
       
       .privacy-policy .last-updated {
@@ -68,10 +119,68 @@
          color: var(--light-color);
          margin-top: 3rem;
          font-style: italic;
+         opacity: 0;
+         animation: fadeIn 0.6s ease-out 0.1s forwards;
       }
       
       .privacy-section {
          margin-bottom: 3rem;
+         opacity: 0;
+         transform: translateY(20px);
+      }
+      
+      /* Animation classes for JavaScript */
+      .animate-heading {
+         animation: fadeInUp 0.6s ease-out forwards;
+      }
+      
+      .animate-paragraph {
+         animation: fadeInUp 0.6s ease-out forwards;
+      }
+      
+      .animate-list {
+         animation: fadeInRight 0.6s ease-out forwards;
+      }
+      
+      .animate-list-item {
+         animation: fadeInLeft 0.4s ease-out forwards;
+      }
+      
+      .animate-section {
+         animation: fadeInUp 0.7s ease-out forwards;
+      }
+      
+      /* Stagger animation delays */
+      .privacy-section:nth-child(2) { animation-delay: 0.3s; }
+      .privacy-section:nth-child(3) { animation-delay: 0.4s; }
+      .privacy-section:nth-child(4) { animation-delay: 0.5s; }
+      .privacy-section:nth-child(5) { animation-delay: 0.6s; }
+      .privacy-section:nth-child(6) { animation-delay: 0.7s; }
+      .privacy-section:nth-child(7) { animation-delay: 0.8s; }
+      .privacy-section:nth-child(8) { animation-delay: 0.9s; }
+      .privacy-section:nth-child(9) { animation-delay: 1.0s; }
+      .privacy-section:nth-child(10) { animation-delay: 1.1s; }
+      
+      /* Smooth transitions for interactive elements */
+      .privacy-policy h3:hover {
+         color: var(--pink);
+         transition: color 0.3s ease;
+      }
+      
+      /* Reduced motion for accessibility */
+      @media (prefers-reduced-motion: reduce) {
+         .privacy-policy,
+         .privacy-policy h2,
+         .privacy-policy h3,
+         .privacy-policy p,
+         .privacy-policy ul,
+         .privacy-policy ul li,
+         .privacy-policy .last-updated,
+         .privacy-section {
+            animation: none;
+            opacity: 1;
+            transform: none;
+         }
       }
    </style>
 </head>
@@ -191,6 +300,78 @@
 <?php @include 'footer.php'; ?>
 
 <script src="js/script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Enhanced animation with Intersection Observer for better performance
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const element = entry.target;
+                
+                if (element.classList.contains('privacy-section')) {
+                    element.style.animation = 'fadeInUp 0.7s ease-out forwards';
+                    
+                    // Animate child elements with staggered delays
+                    const heading = element.querySelector('h3');
+                    const paragraphs = element.querySelectorAll('p');
+                    const lists = element.querySelectorAll('ul');
+                    
+                    if (heading) {
+                        setTimeout(() => {
+                            heading.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                        }, 100);
+                    }
+                    
+                    paragraphs.forEach((p, index) => {
+                        setTimeout(() => {
+                            p.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                        }, 200 + (index * 100));
+                    });
+                    
+                    lists.forEach((ul, index) => {
+                        setTimeout(() => {
+                            ul.style.animation = 'fadeInRight 0.6s ease-out forwards';
+                            
+                            const listItems = ul.querySelectorAll('li');
+                            listItems.forEach((li, liIndex) => {
+                                setTimeout(() => {
+                                    li.style.animation = 'fadeInLeft 0.4s ease-out forwards';
+                                }, liIndex * 50);
+                            });
+                        }, 300 + (index * 100));
+                    });
+                }
+                
+                observer.unobserve(element);
+            }
+        });
+    }, observerOptions);
+
+    // Observe all privacy sections
+    const sections = document.querySelectorAll('.privacy-section');
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
+    // Add subtle hover effects for interactive elements
+    const headings = document.querySelectorAll('.privacy-section h3');
+    headings.forEach(heading => {
+        heading.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateX(5px)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        heading.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateX(0)';
+        });
+    });
+});
+</script>
 
 </body>
 </html>

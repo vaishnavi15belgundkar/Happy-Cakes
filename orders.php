@@ -226,7 +226,7 @@ if(!isset($user_id)){
 </head>
 <body>
    
-<?php @include 'header.php'; ?>
+<?php @include 'header2.php'; ?>
 
 <section class="heading">
     <h3>My Orders</h3>

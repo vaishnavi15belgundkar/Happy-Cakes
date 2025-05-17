@@ -61,7 +61,7 @@ if(isset($_GET['delete_all'])){
 </head>
 <body>
    
-<?php @include 'header.php'; ?>
+<?php @include 'header2.php'; ?>
 
 <section class="heading">
     <h3>&#10084;</h3>
