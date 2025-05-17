@@ -305,7 +305,7 @@ if(isset($_POST['submit'])){
    </style>
 </head>
 <body>
-
+<?php @include 'header.php'; ?>
 <?php
 if(isset($message)){
    echo '<div class="message-container">';

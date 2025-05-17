@@ -599,6 +599,172 @@ if (isset($_POST['add_to_cart'])) {
       min-width: 100%;
    }
 }
+
+
+   /* Animation Classes */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animation Delays */
+.delay-100 {
+    transition-delay: 0.1s;
+}
+
+.delay-200 {
+    transition-delay: 0.2s;
+}
+
+.delay-300 {
+    transition-delay: 0.3s;
+}
+
+.delay-400 {
+    transition-delay: 0.4s;
+}
+
+.delay-500 {
+    transition-delay: 0.5s;
+}
+
+/* Sequential animation for child elements */
+.animate-children > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.animate-children.active > *:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.animate-children.active > *:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.animate-children.active > *:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.animate-children.active > *:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+.animate-children.active > *:nth-child(5) {
+    transition-delay: 0.5s;
+}
+
+.animate-children.active > *:nth-child(6) {
+    transition-delay: 0.6s;
+}
+
+.animate-children.active > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Slide in animations */
+.slide-in-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.slide-in-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.slide-in-left.active,
+.slide-in-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Custom animations for specific sections */
+.home .content {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.home .content.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Subtle zoom animation for product boxes */
+.products .box {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.products .box.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Icons container animation */
+.icons-container .icons {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.icons-container .icons.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Initial state for testimonial boxes */
+.testimonials .box {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.testimonials .box.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Map animation */
+.map-container {
+    opacity: 0;
+    transform: scale(0.98);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.map-container.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in,
+    .animate-children > *,
+    .slide-in-left,
+    .slide-in-right,
+    .home .content,
+    .products .box,
+    .icons-container .icons,
+    .testimonials .box,
+    .map-container {
+        transition: none;
+        opacity: 1;
+        transform: none;
+    }
+}
    </style>
 
 </head>
@@ -948,6 +1114,108 @@ if (isset($_POST['add_to_cart'])) {
 
    <script src="js/script.js"></script>
 
+<script>
+
+   document.addEventListener('DOMContentLoaded', function() {
+    // Apply animation classes to elements
+    setupAnimations();
+    
+    // Initial check for elements in viewport
+    checkAnimations();
+    
+    // Check for animations on scroll
+    window.addEventListener('scroll', checkAnimations);
+    
+    // Function to setup animation classes
+    function setupAnimations() {
+        // Add animation classes to section titles
+        document.querySelectorAll('.title').forEach(title => {
+            title.classList.add('fade-in');
+        });
+        
+        // Home section animation
+        if (document.querySelector('.home .content')) {
+            document.querySelector('.home .content').classList.add('fade-in');
+        }
+        
+        // About section animations
+        if (document.querySelector('.aboutus .video-container')) {
+            document.querySelector('.aboutus .video-container').classList.add('slide-in-left');
+        }
+        if (document.querySelector('.aboutus .content')) {
+            document.querySelector('.aboutus .content').classList.add('slide-in-right');
+        }
+        
+        // Icons animations with staggered delay
+        document.querySelectorAll('.icons-container .icons').forEach((icon, index) => {
+            icon.classList.add('fade-in');
+            icon.classList.add(`delay-${(index + 1) * 100}`);
+        });
+        
+        // Product animations
+        document.querySelectorAll('.products .box').forEach((box, index) => {
+            box.classList.add('fade-in');
+            box.classList.add(`delay-${(index % 3 + 1) * 100}`);
+        });
+        
+        // Services animations
+        document.querySelectorAll('.services .box').forEach(box => {
+            box.classList.add('fade-in');
+        });
+        
+        // Testimonial animations
+        document.querySelectorAll('.testimonials .box').forEach((box, index) => {
+            box.classList.add('fade-in');
+            box.classList.add(`delay-${(index + 1) * 100}`);
+        });
+
+        // Contact section animations
+        document.querySelectorAll('.contact-info .info-item').forEach((item, index) => {
+            item.classList.add('fade-in');
+            item.classList.add(`delay-${(index + 1) * 100}`);
+        });
+        if (document.querySelector('.contact form')) {
+            document.querySelector('.contact form').classList.add('fade-in');
+            document.querySelector('.contact form').classList.add('delay-300');
+        }
+        
+        // Map animation
+        if (document.querySelector('.map-container')) {
+            document.querySelector('.map-container').classList.add('fade-in');
+        }
+        
+        // Footer animations
+        document.querySelectorAll('.footer .box').forEach(box => {
+            box.classList.add('fade-in');
+        });
+        
+        // Add staggered animations to sections with multiple items
+        document.querySelectorAll('.services .box-container').forEach(container => {
+            container.classList.add('animate-children');
+        });
+        document.querySelectorAll('.testimonials .box-container').forEach(container => {
+            container.classList.add('animate-children');
+        });
+    }
+
+    // Function to check if element is in viewport and trigger animation
+    function checkAnimations() {
+        const elements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .animate-children');
+        
+        elements.forEach(element => {
+            const position = element.getBoundingClientRect();
+            
+            // If element is in viewport
+            if (position.top < window.innerHeight * 0.9) {
+                element.classList.add('active');
+            }
+        });
+    }
+    
+    // Trigger initial animations with a slight delay after page load
+    setTimeout(checkAnimations, 100);
+});
+</script>
 </body>
 
 </html>
