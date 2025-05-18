@@ -693,7 +693,7 @@ if(isset($_POST['add_to_cart'])){
                         $tags = [];
                         if($fetch_products['price'] < 30) $tags[] = 'starter';
                         if(stripos($fetch_products['name'], 'vegan') !== false) $tags[] = 'vegan';
-                        if(rand(1,3) == 1) $tags[] = 'new'; // Random new tag for demo
+                        // if(rand(1,3) == 1) $tags[] = 'new'; // Random new tag for demo
                 ?>
                         <div class="product-card">
                             <div class="product-image">

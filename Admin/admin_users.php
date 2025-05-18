@@ -51,7 +51,7 @@ if(isset($_GET['delete'])){
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-birthday-cake"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">Admin Panel</div>
             </a>
@@ -73,7 +73,7 @@ if(isset($_GET['delete'])){
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-shopping-cart"></i>
                     <span>Orders</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -90,13 +90,13 @@ if(isset($_GET['delete'])){
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-fw fa-cupcake"></i>
                     <span>Products</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
+                        <h6 class="collapse-header">Product Management:</h6>
                         <a class="collapse-item" href="utilities-color.html">Add Products</a>
                         <a class="collapse-item" href="utilities-border.html">Delete Products</a>
                         <a class="collapse-item" href="utilities-animation.html">Update Products</a>
@@ -396,11 +396,21 @@ if(isset($_GET['delete'])){
                                                 New Users (7 Days)</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 <?php
-                                                    // Assuming there's a registration_date field in your users table
-                                                    // Adjust this query according to your actual database structure
-                                                    $recent_users = mysqli_query($conn, "SELECT COUNT(*) as recent FROM `users` WHERE registration_date >= DATE_SUB(NOW(), INTERVAL 7 DAY)") or die('query failed');
-                                                    $recent = mysqli_fetch_assoc($recent_users);
-                                                    echo isset($recent['recent']) ? $recent['recent'] : '0';
+                                                    // FIXED: Check if registration_date column exists first
+                                                    // And use proper date format for MySQL
+                                                    $check_column = mysqli_query($conn, "SHOW COLUMNS FROM `users` LIKE 'registration_date'");
+                                                    
+                                                    if(mysqli_num_rows($check_column) > 0) {
+                                                        // Column exists, proceed with query
+                                                        $recent_users = mysqli_query($conn, "SELECT COUNT(*) as recent FROM `users` WHERE registration_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)") or die('query failed');
+                                                        $recent = mysqli_fetch_assoc($recent_users);
+                                                        echo $recent['recent'];
+                                                    } else {
+                                                        // Column doesn't exist, use creation date if available or show 0
+                                                        echo '0';
+                                                        // Alternative query if you have another date column:
+                                                        // $recent_users = mysqli_query($conn, "SELECT COUNT(*) as recent FROM `users` WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)") or die('query failed');
+                                                    }
                                                 ?>
                                             </div>
                                         </div>
@@ -474,6 +484,7 @@ if(isset($_GET['delete'])){
                                             <td>
                                                 <?php 
                                                 // Display registration date if it exists in your database
+                                                // FIXED: Check if column exists in the row data
                                                 echo isset($fetch_users['registration_date']) ? $fetch_users['registration_date'] : 'N/A'; 
                                                 ?>
                                             </td>
@@ -529,35 +540,50 @@ if(isset($_GET['delete'])){
                                                             <div class="card-body">
                                                                 <?php
                                                                 // Query to get order statistics for this user
-                                                                // Adjust based on your database structure
+                                                                // FIXED: Added error handling and proper checking
                                                                 $user_id = $fetch_users['id'];
-                                                                $order_stats = mysqli_query($conn, "SELECT 
-                                                                    COUNT(*) as total_orders,
-                                                                    SUM(total_price) as total_spent
-                                                                    FROM `orders` 
-                                                                    WHERE user_id = '$user_id'") or die('query failed');
-                                                                $stats = mysqli_fetch_assoc($order_stats);
-                                                                ?>
-                                                                <p><strong>Total Orders:</strong> <?php echo isset($stats['total_orders']) ? $stats['total_orders'] : '0'; ?></p>
-                                                                <p><strong>Total Spent:</strong> $<?php echo isset($stats['total_spent']) ? number_format($stats['total_spent'], 2) : '0.00'; ?></p>
-                                                                <p><strong>Last Order:</strong> 
-                                                                <?php 
-                                                                // Query to get last order date
-                                                                $last_order = mysqli_query($conn, "SELECT order_date FROM `orders` WHERE user_id = '$user_id' ORDER BY order_date DESC LIMIT 1") or die('query failed');
-                                                                if(mysqli_num_rows($last_order) > 0){
-                                                                    $order_date = mysqli_fetch_assoc($last_order);
-                                                                    echo $order_date['order_date'];
+                                                                
+                                                                // Check if orders table exists
+                                                                $check_table = mysqli_query($conn, "SHOW TABLES LIKE 'orders'");
+                                                                if(mysqli_num_rows($check_table) > 0) {
+                                                                    // Table exists, proceed with query
+                                                                    $order_stats = mysqli_query($conn, "SELECT 
+                                                                        COUNT(*) as total_orders,
+                                                                        SUM(total_price) as total_spent
+                                                                        FROM `orders` 
+                                                                        WHERE user_id = '$user_id'") or die('query failed');
+                                                                    $stats = mysqli_fetch_assoc($order_stats);
+                                                                    
+                                                                    // Display order statistics
+                                                                    echo "<p><strong>Total Orders:</strong> " . $stats['total_orders'] . "</p>";
+                                                                    echo "<p><strong>Total Spent:</strong> $" . number_format($stats['total_spent'] ?? 0, 2) . "</p>";
+                                                                    
+                                                                    // Get last order date
+                                                                    $last_order = mysqli_query($conn, "SELECT order_date FROM `orders` WHERE user_id = '$user_id' ORDER BY order_date DESC LIMIT 1");
+                                                                    
+                                                                    echo "<p><strong>Last Order:</strong> ";
+                                                                    if(mysqli_num_rows($last_order) > 0) {
+                                                                        $order_date = mysqli_fetch_assoc($last_order);
+                                                                        echo $order_date['order_date'];
+                                                                    } else {
+                                                                        echo 'No orders yet';
+                                                                    }
+                                                                    echo "</p>";
                                                                 } else {
-                                                                    echo 'No orders yet';
+                                                                    // Table doesn't exist or can't be accessed
+                                                                    echo "<p>No order data available</p>";
                                                                 }
                                                                 ?>
-                                                                </p>
                                                             </div>
+                                                        </div>
+                                                        </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                                                        <a href="#" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#editUserModal<?php echo $fetch_users['id']; ?>">Edit User</a>
+                                                        <a href="#" class="btn btn-warning" data-dismiss="modal" data-toggle="modal" data-target="#editUserModal<?php echo $fetch_users['id']; ?>">
+                                                            <i class="fas fa-edit"></i> Edit User
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -577,37 +603,39 @@ if(isset($_GET['delete'])){
                                                         <div class="modal-body">
                                                             <input type="hidden" name="user_id" value="<?php echo $fetch_users['id']; ?>">
                                                             
-                                                   
-                                                            <label for="username">Username</label>
+                                                            <div class="form-group">
+                                                                <label for="username">Username</label>
                                                                 <input type="text" class="form-control" id="username" name="username" value="<?php echo $fetch_users['name']; ?>" required>
                                                             </div>
                                                             
                                                             <div class="form-group">
-                                                                <label for="email">Email Address</label>
+                                                                <label for="email">Email</label>
                                                                 <input type="email" class="form-control" id="email" name="email" value="<?php echo $fetch_users['email']; ?>" required>
                                                             </div>
                                                             
                                                             <div class="form-group">
                                                                 <label for="user_type">User Type</label>
                                                                 <select class="form-control" id="user_type" name="user_type">
-                                                                    <option value="user" <?php if($fetch_users['user_type'] == 'user') echo 'selected'; ?>>Regular User</option>
-                                                                    <option value="admin" <?php if($fetch_users['user_type'] == 'admin') echo 'selected'; ?>>Admin User</option>
+                                                                    <option value="user" <?php echo ($fetch_users['user_type'] == 'user') ? 'selected' : ''; ?>>Regular User</option>
+                                                                    <option value="admin" <?php echo ($fetch_users['user_type'] == 'admin') ? 'selected' : ''; ?>>Admin</option>
                                                                 </select>
                                                             </div>
                                                             
                                                             <div class="form-group">
-                                                                <label for="new_password">New Password (leave blank to keep current)</label>
-                                                                <input type="password" class="form-control" id="new_password" name="new_password">
+                                                                <label for="password">New Password (leave blank to keep current)</label>
+                                                                <input type="password" class="form-control" id="password" name="password">
+                                                                <small class="form-text text-muted">Only fill this if you want to change the user's password.</small>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                                            <button type="submit" name="update_user" class="btn btn-primary">Save Changes</button>
+                                                            <button type="submit" class="btn btn-primary">Save Changes</button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <?php
                                             }
                                         } else {
@@ -626,31 +654,56 @@ if(isset($_GET['delete'])){
                             <h6 class="m-0 font-weight-bold text-primary">Add New User</h6>
                         </div>
                         <div class="card-body">
-                            <form action="add_user.php" method="post">
+                            <form action="add_user.php" method="post" class="needs-validation" novalidate>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <label for="new_username">Username</label>
-                                        <input type="text" class="form-control" id="new_username" name="new_username" required>
+                                        <input type="text" class="form-control" id="new_username" name="name" required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please provide a username.
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="new_email">Email Address</label>
-                                        <input type="email" class="form-control" id="new_email" name="new_email" required>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="new_email">Email</label>
+                                        <input type="email" class="form-control" id="new_email" name="email" required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please provide a valid email.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="new_user_password">Password</label>
-                                        <input type="password" class="form-control" id="new_user_password" name="new_user_password" required>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="new_password">Password</label>
+                                        <input type="password" class="form-control" id="new_password" name="password" required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please provide a password.
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="new_user_type">User Type</label>
-                                        <select class="form-control" id="new_user_type" name="new_user_type">
-                                            <option value="user" selected>Regular User</option>
-                                            <option value="admin">Admin User</option>
+                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="new_user_type">User Type</label>
+                                        <select class="form-control" id="new_user_type" name="user_type" required>
+                                            <option value="">Select Type</option>
+                                            <option value="user">Regular User</option>
+                                            <option value="admin">Admin</option>
                                         </select>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please select a user type.
+                                        </div>
                                     </div>
                                 </div>
-                                <button type="submit" name="add_user" class="btn btn-primary">Add User</button>
+                                <button class="btn btn-primary" type="submit" name="add_user">Add User</button>
                             </form>
                         </div>
                     </div>
@@ -665,7 +718,7 @@ if(isset($_GET['delete'])){
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Happy Cakes 2025</span>
+                        <span>Copyright &copy; Happy Cakes Admin 2025</span>
                     </div>
                 </div>
             </footer>
@@ -716,11 +769,31 @@ if(isset($_GET['delete'])){
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+    <!-- Page level custom scripts -->
     <script>
         // Initialize DataTables
         $(document).ready(function() {
             $('#usersTable').DataTable();
         });
+
+        // Form validation script
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
     </script>
 
 </body>

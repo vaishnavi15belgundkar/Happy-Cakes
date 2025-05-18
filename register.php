@@ -2,7 +2,7 @@
 
 @include 'config.php';
 
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
 
    $filter_name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
    $name = mysqli_real_escape_string($conn, $filter_name);
@@ -10,38 +10,40 @@ if(isset($_POST['submit'])){
    $filter_email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
    $email = mysqli_real_escape_string($conn, $filter_email);
 
-   $pass = mysqli_real_escape_string($conn, password_hash($_POST['pass'], PASSWORD_BCRYPT));
+   $filter_number = filter_var($_POST['phone_number'], FILTER_SANITIZE_NUMBER_INT);
+   $number = mysqli_real_escape_string($conn, $filter_number);
+
+   $raw_pass = $_POST['pass'];
    $cpass = $_POST['cpass'];
 
-   $filter_city = filter_var($_POST['hint_city'], FILTER_SANITIZE_STRING);
-   $hint_city = mysqli_real_escape_string($conn, $filter_city);
-
-   $filter_movie = filter_var($_POST['hint_movie'], FILTER_SANITIZE_STRING);
-   $hint_movie = mysqli_real_escape_string($conn, $filter_movie);
-
-   // Default user type
-   $user_type = 'user';  // Automatically set to 'user'
-
-   $select_users = mysqli_prepare($conn, "SELECT email FROM users WHERE email = ?");
-   mysqli_stmt_bind_param($select_users, "s", $email);
-   mysqli_stmt_execute($select_users);
-   mysqli_stmt_store_result($select_users);
-
-   if(mysqli_stmt_num_rows($select_users) > 0){
-      $message[] = 'User already exists!';
+   // Check if passwords match before hashing
+   if ($raw_pass !== $cpass) {
+      $message[] = 'Confirm password does not match!';
    } else {
-      if(!password_verify($cpass, $pass)){
-         $message[] = 'Confirm password does not match!';
+      $pass = mysqli_real_escape_string($conn, password_hash($raw_pass, PASSWORD_BCRYPT));
+      $user_type = 'user'; // Default value
+
+      // Check if email already exists
+      $select_users = mysqli_prepare($conn, "SELECT email FROM users WHERE email = ?");
+      mysqli_stmt_bind_param($select_users, "s", $email);
+      mysqli_stmt_execute($select_users);
+      mysqli_stmt_store_result($select_users);
+
+      if (mysqli_stmt_num_rows($select_users) > 0) {
+         $message[] = 'User already exists!';
       } else {
-         $insert_user = mysqli_prepare($conn, "INSERT INTO users(name, email, password, hint_city, hint_movie, user_type) VALUES(?, ?, ?, ?, ?, ?)");
-         mysqli_stmt_bind_param($insert_user, "ssssss", $name, $email, $pass, $hint_city, $hint_movie, $user_type);
+         // Insert user
+         $insert_user = mysqli_prepare($conn, "INSERT INTO users(name, email, password, phone_number, user_type) VALUES(?, ?, ?, ?, ?)");
+         mysqli_stmt_bind_param($insert_user, "sssss", $name, $email, $pass, $number, $user_type);
          mysqli_stmt_execute($insert_user);
+
          $message[] = 'Registered successfully!';
          header('location:login.php');
          exit();
       }
    }
 }
+
 
 ?>
 
@@ -303,7 +305,7 @@ if(isset($message)){
 
       <div class="input-container">
    <i class="fas fa-phone"></i>
-   <input type="tel" name="phone" class="box" placeholder="Enter your phone number" required>
+   <input type="tel" name="phone_number" class="box" placeholder="Enter your phone number" required>
    </div>
 
       

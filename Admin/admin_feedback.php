@@ -8,12 +8,21 @@ $admin_id = $_SESSION['admin_id'];
 
 if(!isset($admin_id)){
    header('location:login.php');
+   exit();
 }
 
 if(isset($_GET['delete'])){
    $delete_id = $_GET['delete'];
-   mysqli_query($conn, "DELETE FROM `message` WHERE id = '$delete_id'") or die('query failed');
-   header('location:admin_feedback.php');
+   // Added proper input sanitization to prevent SQL injection
+   $delete_id = mysqli_real_escape_string($conn, $delete_id);
+   $delete_query = mysqli_query($conn, "DELETE FROM `message` WHERE id = '$delete_id'");
+   
+   if($delete_query){
+      // Success message can be added here if needed
+      header('location:admin_feedback.php');
+   } else {
+      echo "Delete operation failed: " . mysqli_error($conn);
+   }
 }
 
 ?>
@@ -185,97 +194,6 @@ if(isset($_GET['delete'])){
                             </div>
                         </li>
 
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">April 12, 2025</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">April 7, 2025</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">April 2, 2025</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -323,9 +241,16 @@ if(isset($_GET['delete'])){
                                                 Total Feedback</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 <?php
-                                                    $total_feedback = mysqli_query($conn, "SELECT COUNT(*) as total FROM `message`") or die('query failed');
-                                                    $total = mysqli_fetch_assoc($total_feedback);
-                                                    echo $total['total'];
+                                                    // Added error handling
+                                                    $total_feedback = mysqli_query($conn, "SELECT COUNT(*) as total FROM `message`");
+                                                    if($total_feedback) {
+                                                        $total = mysqli_fetch_assoc($total_feedback);
+                                                        echo $total['total'];
+                                                    } else {
+                                                        echo "0";
+                                                        // Log error for debugging
+                                                        error_log("Query failed: " . mysqli_error($conn));
+                                                    }
                                                 ?>
                                             </div>
                                         </div>
@@ -347,11 +272,21 @@ if(isset($_GET['delete'])){
                                                 New Feedback (7 Days)</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 <?php
-                                                    // Assuming there's a date field in your message table
-                                                    // Adjust this query according to your actual database structure
-                                                    $recent_feedback = mysqli_query($conn, "SELECT COUNT(*) as recent FROM `message` WHERE date_sent >= DATE_SUB(NOW(), INTERVAL 7 DAY)") or die('query failed');
-                                                    $recent = mysqli_fetch_assoc($recent_feedback);
-                                                    echo isset($recent['recent']) ? $recent['recent'] : '0';
+                                                    // Checking if date_sent column exists in the message table
+                                                    $recent_feedback = mysqli_query($conn, "SELECT COUNT(*) as recent FROM `message` WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)");
+                                                    if(!$recent_feedback) {
+                                                        // Try alternative column name if date_sent doesn't exist
+                                                        $recent_feedback = mysqli_query($conn, "SELECT COUNT(*) as recent FROM `message` WHERE date >= DATE_SUB(NOW(), INTERVAL 7 DAY)");
+                                                    }
+                                                    
+                                                    if($recent_feedback) {
+                                                        $recent = mysqli_fetch_assoc($recent_feedback);
+                                                        echo $recent['recent'];
+                                                    } else {
+                                                        echo "0";
+                                                        // Log error for debugging
+                                                        error_log("Query failed: " . mysqli_error($conn));
+                                                    }
                                                 ?>
                                             </div>
                                         </div>
@@ -373,11 +308,18 @@ if(isset($_GET['delete'])){
                                                 Pending Responses</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                 <?php
-                                                    // Assuming there's a status field in your message table
-                                                    // Adjust this query according to your actual database structure
-                                                    $pending_responses = mysqli_query($conn, "SELECT COUNT(*) as pending FROM `message` WHERE status = 'pending'") or die('query failed');
-                                                    $pending = mysqli_fetch_assoc($pending_responses);
-                                                    echo isset($pending['pending']) ? $pending['pending'] : '0';
+                                                    // Check if status column exists
+                                                    $pending_query = "SELECT COUNT(*) as pending FROM `message` WHERE status = 'pending' OR status IS NULL";
+                                                    $pending_responses = mysqli_query($conn, $pending_query);
+                                                    
+                                                    if($pending_responses) {
+                                                        $pending = mysqli_fetch_assoc($pending_responses);
+                                                        echo $pending['pending'];
+                                                    } else {
+                                                        echo "0";
+                                                        // Log error for debugging
+                                                        error_log("Query failed: " . mysqli_error($conn));
+                                                    }
                                                 ?>
                                             </div>
                                         </div>
@@ -399,12 +341,34 @@ if(isset($_GET['delete'])){
                                                 Response Rate</div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">78%</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                                    <?php
+                                                        // Calculate response rate
+                                                        $total_query = mysqli_query($conn, "SELECT COUNT(*) as total FROM `message`");
+                                                        $responded_query = mysqli_query($conn, "SELECT COUNT(*) as responded FROM `message` WHERE status = 'responded'");
+                                                        
+                                                        if($total_query && $responded_query) {
+                                                            $total_count = mysqli_fetch_assoc($total_query)['total'];
+                                                            $responded_count = mysqli_fetch_assoc($responded_query)['responded'];
+                                                            
+                                                            $response_rate = ($total_count > 0) ? round(($responded_count / $total_count) * 100) : 0;
+                                                            echo $response_rate . '%';
+                                                            
+                                                            // Store for progress bar
+                                                            $progress_percentage = $response_rate;
+                                                        } else {
+                                                            echo "0%";
+                                                            $progress_percentage = 0;
+                                                            // Log error for debugging
+                                                            error_log("Query failed: " . mysqli_error($conn));
+                                                        }
+                                                    ?>
+                                                    </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm mr-2">
                                                         <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 78%" aria-valuenow="78" aria-valuemin="0"
+                                                            style="width: <?php echo $progress_percentage; ?>%" aria-valuenow="<?php echo $progress_percentage; ?>" aria-valuemin="0"
                                                             aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
@@ -440,6 +404,19 @@ if(isset($_GET['delete'])){
                             </div>
                         </div>
                         <div class="card-body">
+                            <?php
+                            // Check for and display session messages
+                            if(isset($_SESSION['success_msg'])) {
+                                echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success_msg']) . '</div>';
+                                unset($_SESSION['success_msg']);
+                            }
+                            
+                            if(isset($_SESSION['error_msg'])) {
+                                echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['error_msg']) . '</div>';
+                                unset($_SESSION['error_msg']);
+                            }
+                            ?>
+                            
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="feedbackTable" width="100%" cellspacing="0">
                                     <thead>
@@ -466,20 +443,20 @@ if(isset($_GET['delete'])){
                                     </tfoot>
                                     <tbody>
                                         <?php
-                                        $select_message = mysqli_query($conn, "SELECT * FROM `message` ORDER BY id DESC") or die('query failed');
-                                        if(mysqli_num_rows($select_message) > 0){
+                                        $select_message = mysqli_query($conn, "SELECT * FROM `message` ORDER BY id DESC");
+                                        if($select_message && mysqli_num_rows($select_message) > 0){
                                             while($fetch_message = mysqli_fetch_assoc($select_message)){
                                         ?>
                                         <tr>
-                                            <td><?php echo $fetch_message['user_id']; ?></td>
-                                            <td><?php echo $fetch_message['name']; ?></td>
-                                            <td><?php echo $fetch_message['email']; ?></td>
-                                            <td><?php echo $fetch_message['number']; ?></td>
+                                            <td><?php echo htmlspecialchars($fetch_message['user_id']); ?></td>
+                                            <td><?php echo htmlspecialchars($fetch_message['name']); ?></td>
+                                            <td><?php echo htmlspecialchars($fetch_message['email']); ?></td>
+                                            <td><?php echo htmlspecialchars($fetch_message['number']); ?></td>
                                             <td>
                                                 <?php 
                                                 // Truncate message if it's too long
                                                 $message = $fetch_message['message'];
-                                                echo (strlen($message) > 100) ? substr($message, 0, 100) . '...' : $message;
+                                                echo htmlspecialchars((strlen($message) > 100) ? substr($message, 0, 100) . '...' : $message);
                                                 ?>
                                                 <button class="btn btn-sm btn-link" data-toggle="modal" data-target="#viewMessageModal<?php echo $fetch_message['id']; ?>">
                                                     View
@@ -507,7 +484,7 @@ if(isset($_GET['delete'])){
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="viewMessageModalLabel<?php echo $fetch_message['id']; ?>">Message from <?php echo $fetch_message['name']; ?></h5>
+                                                        <h5 class="modal-title" id="viewMessageModalLabel<?php echo $fetch_message['id']; ?>">Message from <?php echo htmlspecialchars($fetch_message['name']); ?></h5>
                                                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">×</span>
                                                         </button>
@@ -518,10 +495,10 @@ if(isset($_GET['delete'])){
                                                                 <strong>Contact Details</strong>
                                                             </div>
                                                             <div class="card-body">
-                                                                <p><strong>Name:</strong> <?php echo $fetch_message['name']; ?></p>
-                                                                <p><strong>Email:</strong> <?php echo $fetch_message['email']; ?></p>
-                                                                <p><strong>Phone:</strong> <?php echo $fetch_message['number']; ?></p>
-                                                                <p><strong>User ID:</strong> <?php echo $fetch_message['user_id']; ?></p>
+                                                                <p><strong>Name:</strong> <?php echo htmlspecialchars($fetch_message['name']); ?></p>
+                                                                <p><strong>Email:</strong> <?php echo htmlspecialchars($fetch_message['email']); ?></p>
+                                                                <p><strong>Phone:</strong> <?php echo htmlspecialchars($fetch_message['number']); ?></p>
+                                                                <p><strong>User ID:</strong> <?php echo htmlspecialchars($fetch_message['user_id']); ?></p>
                                                             </div>
                                                         </div>
                                                         <div class="card">
@@ -529,7 +506,7 @@ if(isset($_GET['delete'])){
                                                                 <strong>Message Content</strong>
                                                             </div>
                                                             <div class="card-body">
-                                                                <p><?php echo $fetch_message['message']; ?></p>
+                                                                <p><?php echo nl2br(htmlspecialchars($fetch_message['message'])); ?></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -546,7 +523,7 @@ if(isset($_GET['delete'])){
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="replyModalLabel<?php echo $fetch_message['id']; ?>">Reply to <?php echo $fetch_message['name']; ?></h5>
+                                                        <h5 class="modal-title" id="replyModalLabel<?php echo $fetch_message['id']; ?>">Reply to <?php echo htmlspecialchars($fetch_message['name']); ?></h5>
                                                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">×</span>
                                                         </button>
@@ -554,7 +531,7 @@ if(isset($_GET['delete'])){
                                                     <form action="send_reply.php" method="post">
                                                         <div class="modal-body">
                                                             <input type="hidden" name="message_id" value="<?php echo $fetch_message['id']; ?>">
-                                                            <input type="hidden" name="email" value="<?php echo $fetch_message['email']; ?>">
+                                                            <input type="hidden" name="email" value="<?php echo htmlspecialchars($fetch_message['email']); ?>">
                                                             
                                                             <div class="form-group">
                                                                 <label for="subject">Subject</label>
@@ -563,7 +540,7 @@ if(isset($_GET['delete'])){
                                                             
                                                             <div class="form-group">
                                                                 <label for="reply_message">Message</label>
-                                                                <textarea class="form-control" id="reply_message" name="reply_message" rows="6" required>Dear <?php echo $fetch_message['name']; ?>,
+                                                                <textarea class="form-control" id="reply_message" name="reply_message" rows="6" required>Dear <?php echo htmlspecialchars($fetch_message['name']); ?>,
 
 Thank you for your feedback. We appreciate you taking the time to share your thoughts with us.
 
@@ -583,8 +560,12 @@ Happy Cakes Team</textarea>
                                         </div>
                                         <?php
                                             }
-                                        }else{
-                                            echo '<tr><td colspan="7" class="text-center">No feedback messages found</td></tr>';
+                                        } else {
+                                            if(!$select_message) {
+                                                echo '<tr><td colspan="7" class="text-center text-danger">Error retrieving feedback: ' . mysqli_error($conn) . '</td></tr>';
+                                            } else {
+                                                echo '<tr><td colspan="7" class="text-center">No feedback messages found</td></tr>';
+                                            }
                                         }
                                         ?>
                                     </tbody>
@@ -594,7 +575,6 @@ Happy Cakes Team</textarea>
                     </div>
 
                 </div>
-         
                 <!-- /.container-fluid -->
 
             </div>
@@ -687,97 +667,3 @@ Happy Cakes Team</textarea>
 </body>
 
 </html>
-
-<?php
-// Add the accompanying send_reply.php file code below
-/*
---------------------------------------------------------
-FILE: send_reply.php
-This file handles the email reply functionality
---------------------------------------------------------
-*/
-
-// This code would normally be in a separate file called send_reply.php
-
-/*
-@include 'config.php';
-
-session_start();
-
-$admin_id = $_SESSION['admin_id'];
-
-if(!isset($admin_id)){
-   header('location:login.php');
-   exit();
-}
-
-if(isset($_POST['message_id']) && isset($_POST['reply_message']) && isset($_POST['email']) && isset($_POST['subject'])){
-    $message_id = mysqli_real_escape_string($conn, $_POST['message_id']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $subject = mysqli_real_escape_string($conn, $_POST['subject']);
-    $reply_message = mysqli_real_escape_string($conn, $_POST['reply_message']);
-    
-    // Update status to responded in the database
-    mysqli_query($conn, "UPDATE `message` SET status = 'responded' WHERE id = '$message_id'") or die('query failed');
-    
-    // Send email (using a library like PHPMailer would be better for production)
-    $headers = "From: admin@happycakes.com\r\n";
-    $headers .= "Reply-To: admin@happycakes.com\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-    
-    if(mail($email, $subject, $reply_message, $headers)){
-        // Log the response
-        $admin_name = "Admin"; // You could fetch the actual admin name from the database
-        $response_date = date('Y-m-d H:i:s');
-        mysqli_query($conn, "INSERT INTO `message_responses` (message_id, admin_id, admin_name, response_content, response_date) 
-                        VALUES ('$message_id', '$admin_id', '$admin_name', '$reply_message', '$response_date')") or die('query failed');
-        
-        $_SESSION['success_msg'] = "Reply sent successfully!";
-    } else {
-        $_SESSION['error_msg'] = "Failed to send reply. Please try again.";
-    }
-    
-    header('location:admin_feedback.php');
-    exit();
-} else {
-    $_SESSION['error_msg'] = "Invalid request.";
-    header('location:admin_feedback.php');
-    exit();
-}
-*/
-
-// Add the accompanying mark_as_read.php file code below
-/*
---------------------------------------------------------
-FILE: mark_as_read.php
-This file marks messages as read via AJAX
---------------------------------------------------------
-*/
-
-/*
-@include 'config.php';
-
-session_start();
-
-$admin_id = $_SESSION['admin_id'];
-
-if(!isset($admin_id)){
-    echo json_encode(['status' => 'error', 'message' => 'Not authorized']);
-    exit();
-}
-
-if(isset($_POST['id'])){
-    $message_id = mysqli_real_escape_string($conn, $_POST['id']);
-    
-    // Update message status to read
-    $update_status = mysqli_query($conn, "UPDATE `message` SET read_status = 'read' WHERE id = '$message_id'") or die('query failed');
-    
-    if($update_status){
-        echo json_encode(['status' => 'success']);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Database update failed']);
-    }
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'No message ID provided']);
-}
-*/
