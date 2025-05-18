@@ -4,8 +4,8 @@
 /*===== VARIABLES CSS =====*/
 :root{
     /*===== Colores =====*/
-    --first-color: #9D4BFF;
-    --first-color-dark: #23004D;
+    --first-color: #2b37e8;
+    --first-color-dark: #1064e1;
     --first-color-light: #A49EAC;
     --first-color-lighten: #F2F2F2;
 
@@ -73,7 +73,7 @@ img{
         position: absolute; 
         bottom: 1rem;
         width: 100%;
-        background-color: var(--first-color-lighten);
+        background-color: #2b37e8;
         padding: 2rem 1rem;
         border-radius: 1rem;
         text-align: center;
@@ -108,14 +108,14 @@ img{
     }
     &__icon{
         font-size: 1.5rem;
-        color: var(--first-color);
+        color: #2b37e8;
     }
     &__input{
         border: none;
         outline: none;
         font-size: var(--normal-font-size);
         font-weight: 700;
-        color: var(--first-color-dark);
+        color: #2b37e8;
 
         &::placeholder{
             font-size: var(--normal-font-size);
