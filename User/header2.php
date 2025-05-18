@@ -6,7 +6,7 @@
 
         <nav class="navbar">
             <ul>
-                <li><a href="index.php">Home</a></li>
+                <li><a href="index2.php">Home</a></li>
                 <li><a href="shop.php">Products</a></li>
                 <li><a href="about.php">About</a></li>
                 <li><a href="contact.php">Contact</a></li>
