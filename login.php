@@ -1,5 +1,5 @@
 <?php
-
+//this is login page 
 @include 'config.php';
 
 session_start();
