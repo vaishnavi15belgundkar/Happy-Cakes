@@ -1,6 +1,8 @@
 <?php
-//this is login pagess
 @include 'config.php';
+
+//Suraj is idiot 
+
 
 session_start();
 
